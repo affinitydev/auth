@@ -26,7 +26,7 @@ trait ResourceFullClassNameTrait
      * 
      * @return string The resource identifier.
      */
-    function getName()
+    public static function getName()
     {
         return __CLASS__;
     }

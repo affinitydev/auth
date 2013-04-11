@@ -9,10 +9,15 @@
  * @license http://opensource.org/licenses/bsd-license.php BSD
  */
 
-namespace Affinity\SimpleAuth\Decision;
+namespace Affinity\SimpleAuth\Generic\Decision;
 
 use Affinity\SimpleAuth\Model\UserInterface;
 use Affinity\SimpleAuth\Model\DecisionInterface;
+use Affinity\SimpleAuth\Model\PropertyInterface;
+use Affinity\SimpleAuth\Model\RoleInterface;
+use Affinity\SimpleAuth\Model\PermissionInterface;
+
+use Affinity\SimpleAuth\Generic\Property;
 
 use Affinity\SimpleAuth\Helper\PermissionHelper;
 use Affinity\SimpleAuth\Helper\ContextContainerTrait;
@@ -24,7 +29,7 @@ use Affinity\SimpleAuth\Helper\ContextContainerTrait;
  * @package Affinity.SimpleAuth
  * 
  */
-class PermissionDecision implements DecisionInterface
+class StringDecision implements DecisionInterface
 {    
     use ContextContainerTrait;
     
@@ -34,7 +39,7 @@ class PermissionDecision implements DecisionInterface
      * 
      * @param mixed $resource The resource to test for a decision.
      */
-    public function testDecision($resource)
+    public function testDecision($resource, array $params = null)
     {
         if(is_string($resource))
             return true;
@@ -52,14 +57,11 @@ class PermissionDecision implements DecisionInterface
      */
     public function makeDecision($resource, array $params = null)
     {
+        // The final decision to return.
         $decision = false;
         
-        echo "Running decision: " . $resource . "<br/>";
-        echo "Username: " . $this->getContext()->getUser()->username;
-        return;
-        
-        
-        $roles = $this->user->getRoles();
+        $user = $this->getContext()->getUser();
+        $roles = $user->getRoles();
         
         // Loop through roles.
         foreach($roles as $role)
@@ -71,11 +73,11 @@ class PermissionDecision implements DecisionInterface
                 if($permission->getResource() == $resource)
                 {
                     /* @var $property PropertyInterface */
-                    $property = $permission->getProperty("IsGranted");
-                    if($property != null)
+                    $properties = $permission->getProperties();
+                    foreach($properties as $property)
                     {
-                        if($property->getValue() == true)
-                            $decision = true;
+                        if($property->getName() == Property::IsGranted)
+                            $decision = $property->getValue();                       
                     }
                 }
             }

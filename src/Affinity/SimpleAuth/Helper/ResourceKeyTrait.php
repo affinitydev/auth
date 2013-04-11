@@ -22,20 +22,4 @@ namespace Affinity\SimpleAuth\Helper;
 
 trait ResourceKeyTrait
 {
-    /**
-     * Returns the key for the current resource.
-     * 
-     * @return string The resource key.
-     */
-    function getKey()
-    {
-        if(isset($this->Id))
-            return $this->Id;
-        if(isset($this->id))
-            return $this->id;
-        if(isset($this->Key))
-            return $this->Key;
-        if(isset($this->key))
-            return $this->key;
-    }
 }

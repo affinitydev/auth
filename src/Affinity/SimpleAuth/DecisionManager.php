@@ -91,6 +91,7 @@ class DecisionManager
             $this->strategies[$this->strategyCount] = $strategy;
         }
         
+        // Inject the current authContext.
         if($this->authContext != null)
             $strategy->setContext($this->authContext);
         
@@ -103,12 +104,12 @@ class DecisionManager
      * 
      * @return DecisionInterface The decision strategy for the object.
      */
-    public function getDecisionStrategy($resource)
+    public function getDecisionStrategy($resource, array $parameters = null)
     {
         /* @var $strategy DecisionInterface */
         foreach($this->strategies as $strategy)
         {
-            if($strategy->testDecision($resource))
+            if($strategy->testDecision($resource, $parameters))
                 return $strategy;
         }
         

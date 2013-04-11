@@ -9,7 +9,7 @@
  * @license http://opensource.org/licenses/bsd-license.php BSD
  */
 
-namespace Affinity\SimpleAuth;
+namespace Affinity\SimpleAuth\Generic;
 
 use Affinity\SimpleAuth\Model\RoleInterface;
 use Affinity\SimpleAuth\Model\PermissionInterface;

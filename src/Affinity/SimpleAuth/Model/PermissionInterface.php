@@ -40,4 +40,11 @@ interface PermissionInterface
      * @return mixed Resource.
      */
     public function getResource();
+    
+    /**
+     * Sets the resource.
+     * 
+     * @param mxied $resource
+     */
+    public function setResource($resource);
 }

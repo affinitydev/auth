@@ -9,7 +9,7 @@
  * @license http://opensource.org/licenses/bsd-license.php BSD
  */
 
-namespace Affinity\SimpleAuth;
+namespace Affinity\SimpleAuth\Generic;
 
 use Affinity\SimpleAuth\Model\UserInterface;
 use Affinity\SimpleAuth\Model\PermissionInterface;
@@ -27,10 +27,13 @@ class User implements UserInterface
     private $permissions;
     private $roles;
     
+    private $fields;
+    
     public function __construct()
     {
         $this->permissions = array();
         $this->roles = array();
+        $this->fields = array();
     }
     
     /**
@@ -63,5 +66,32 @@ class User implements UserInterface
     public function getRoles()
     {
         return $this->roles;
-    }    
+    }
+    
+    /**
+     * Magic setter, so that public class properties can be defined for
+     * the generic user.
+     * 
+     * @param type $name
+     * @param type $value
+     */
+    public function __set($name, $value)
+    {
+        $this->fields[$name] = $value;
+    }
+    
+    /**
+     * Magic getter for the public class properties.
+     * 
+     * @param string $name
+     * 
+     * @return mixed The value of the field (null if unset).
+     */
+    public function __get($name) 
+    {
+        if(isset($this->fields[$name]))
+            return $this->fields[$name];
+        else
+            return null;
+    }
 }

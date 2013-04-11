@@ -14,6 +14,9 @@ namespace Affinity\SimpleAuth;
 use Affinity\SimpleAuth\Model\AuthContextInterface;
 use Affinity\SimpleAuth\Model\UserInterface;
 
+use Affinity\SimpleAuth\AuthManager;
+use Affinity\SimpleAuth\DecisionManager;
+
 /**
  * Offers a context for a UserInterface object, so that any
  * module within SimpleAuth can have access to the current
@@ -30,9 +33,17 @@ class AuthContext
      * @var UserInterface $user
      */
     private $user;
+    private $authManager;
+    private $decisionManager;
     
-    public function __construct(UserInterface $user = null)
+    public function __construct(AuthManager $authManager, DecisionManager $decisionManager, UserInterface $user = null)
     {
+        $this->authManager = $authManager;
+        $this->decisionManager = $decisionManager;
+        
+        $this->authManager->setContext($this);
+        $this->decisionManager->setContext($this);
+        
         if($user != null)
             $this->user = $user;
     }
@@ -56,4 +67,37 @@ class AuthContext
     {
         $this->user = $user;
     }
+    
+    /**
+     * Returns the auth manager.
+     * 
+     * @return AuthManager
+     */
+    public function getAuthManager()
+    {
+        return $this->authManager;
+    }
+    
+    /**
+     * 
+     * @param \Affinity\SimpleAuth\AuthManager $authManager
+     */
+    public function setAuthManager(AuthManager $authManager)
+    {
+        $this->authManager = $authManager;
+    }
+    
+    /**
+     * 
+     * @return type
+     */
+    public function getDecisionManager()
+    {
+        return $this->decisionManager;
+    }
+    
+    public function setDecisionManager(DecisionManager $decisionManager)
+    {
+        $this->decisionManager = $decisionManager;
+    }    
 }

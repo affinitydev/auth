@@ -9,7 +9,7 @@
  * @license http://opensource.org/licenses/bsd-license.php BSD
  */
 
-namespace Affinity\SimpleAuth;
+namespace Affinity\SimpleAuth\Generic;
 
 use Affinity\SimpleAuth\Model\PermissionInterface;
 use Affinity\SimpleAuth\Model\PropertyInterface;
@@ -54,5 +54,13 @@ class Permission implements PermissionInterface
     public function getResource()
     {
         return $this->resource;
-    }    
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function setResource($resource)
+    {
+        $this->resource = $resource;
+    }
 }

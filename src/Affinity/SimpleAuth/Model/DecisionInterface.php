@@ -25,7 +25,7 @@ interface DecisionInterface extends ContextContainerInterface
      * 
      * @param mixed $resource The resource to test for a decision.
      */
-    public function testDecision($resource);
+    public function testDecision($resource, array $params = null);
     
     /**
      * Makes a decision based on a given User context, a property

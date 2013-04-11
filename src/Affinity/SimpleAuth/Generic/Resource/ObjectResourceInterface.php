@@ -8,8 +8,7 @@
  * @package Affinity.Auth
  * @license http://opensource.org/licenses/bsd-license.php BSD
  */
-namespace Affinity\SimpleAuth\Model;
-
+namespace Affinity\SimpleAuth\Generic\Resource;
 /**
  * 
  * Interface describing a resource for authentication.  A resource must
@@ -26,14 +25,14 @@ namespace Affinity\SimpleAuth\Model;
  * @package Affinity.Auth
  * 
  */
-interface ResourceInterface
+interface ObjectResourceInterface
 {
     /**
      * Returns the unique name identifier for the resource.
      * 
      * @return mixed
      */
-    public function getName();
+    public static function getName();
     
     /**
      * Returns the key for the resource.  Can be null.

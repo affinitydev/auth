@@ -9,7 +9,7 @@
  * @license http://opensource.org/licenses/bsd-license.php BSD
  */
 
-namespace Affinity\SimpleAuth;
+namespace Affinity\SimpleAuth\Generic;
 
 use Affinity\SimpleAuth\Model\PropertyInterface;
 
@@ -24,6 +24,12 @@ class Property implements PropertyInterface
 {
     private $name;
     private $value;
+    
+    const IsGranted = "IsGrantedProperty";
+    const Create = "CreateProperty";
+    const Read = "ReadProperty";
+    const Update = "UpdateProperty";
+    const Delete = "DeleteProperty";
     
     /**
      * @inheritdoc
@@ -44,7 +50,7 @@ class Property implements PropertyInterface
     /**
      * @inheritdoc
      */
-    public function setName(string $name) 
+    public function setName($name) 
     {
         $this->name = $name;
     }

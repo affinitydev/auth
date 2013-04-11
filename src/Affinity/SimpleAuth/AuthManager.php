@@ -32,63 +32,32 @@ use Affinity\SimpleAuth\UserContext;
  * @package Affinity.SimpleAuth
  * 
  */
-class AuthManager
-{    
-    /**
-     * The UserInterface object.
-     * 
-     * @var AuthContext The UserInterface.
-     */
-    private $authContext;
-    
-    /**
-     * The DecisionManager determines what type of strategy
-     * to use for deciding access on a resource.
-     * 
-     * @var DecisionManager
-     */
-    private $decisionManager;
-    
-    /**
-     * Constructor.
-     * 
-     */
-    public function __construct(AuthContext $authContext, DecisionManager $decisionManager)
-    {
-        $this->decisionManager = $decisionManager;
-        $this->authContext = $authContext;
-        
-        // Set the Context, so that user objects can be accessed.
-        $this->decisionManager->setContext($authContext);
-    }
+class AuthManager implements ContextContainerInterface
+{
+    use ContextContainerTrait;
     
     /**
      * Decide if the current user context can authenticate to the given
      * object.
      * 
      * @param mixed $resource
-     * @param array $parameters
+     * @param mixed $parameters
      */
     public function authenticate($object, $parameters = null)
     {
         // Attempt to resolve a decision strategy.
+        $decisionManager = $this->getContext()->getDecisionManager();
+        if((!is_array($parameters)) && $parameters != null)
+            $parameters = array("Property" => $parameters);
         
         /* @var $strategy DecisionInterface */
-        $strategy = $this->decisionManager->getDecisionStrategy($object);
+        $strategy = $decisionManager->getDecisionStrategy($object, $parameters);
         
         if(!($strategy instanceof DecisionInterface))
             throw new InvalidDecisionException("An invalid decision strategy was returned from the decision manager.  Perhaps the object returned was not a DecisionInterface object.");
         
-        $strategy->makeDecision($object, $parameters);
+        return $strategy->makeDecision($object, $parameters);
+        return ($strategy->makeDecision($object, $parameters) ? true : false);
     }
     
-    public function getUser()
-    {
-        return $this->authContext->getUser();
-    }
-    
-    public function setUser(UserInterface $user)
-    {
-        $this->authContext->setUser($user);
-    }
 }

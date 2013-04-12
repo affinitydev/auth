@@ -169,4 +169,5 @@ pip-log.txt
 ## NetBeans
 #############
 /.nb/
+/.idea/
 /examples/

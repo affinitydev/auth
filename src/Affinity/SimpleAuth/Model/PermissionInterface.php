@@ -21,30 +21,44 @@ namespace Affinity\SimpleAuth\Model;
 interface PermissionInterface
 {
     /**
-     * Adds a property to the permission.
+     * Adds an action to the permission.
      * 
-     * @param \Affinity\SimpleAuth\Model\PropertyInterface $property
+     * @param array $actions Array of actions to add to the permission.
      */
-    public function addProperty(PropertyInterface $property);
+    public function setActions(array $actions);
     
     /**
-     * Retrieves a property if it exists.  Should return null otherwise.
+     * Returns an array of the actions linked to this permission.
      * 
      * @param mixed $propertyName
      */
-    public function getProperties();
+    public function getActions();
+    
+    /**
+     * Retrieves the resource key.
+     * 
+     * @return mixed The resource key.
+     */
+    public function getResourceKey();
+    
+    /**
+     * Sets the key to map to the resource.
+     * 
+     * @param mixed $key The resource key.
+     */
+    public function setResourceKey($key);
     
     /**
      * Retrieves the resource associated with this property.
      * 
      * @return mixed Resource.
      */
-    public function getResource();
+    public function getResourceName();
     
     /**
      * Sets the resource.
      * 
      * @param mxied $resource
      */
-    public function setResource($resource);
+    public function setResourceName($resource);
 }

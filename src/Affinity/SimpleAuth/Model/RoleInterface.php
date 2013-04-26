@@ -24,7 +24,33 @@ interface RoleInterface
      * 
      * @return RoleInterface The parent role.
      */
-    public function getParent();
+    public function getParentRole();
+    
+    /**
+     * Sets the parent role.  Roles can be formed in a hierarchy, and
+     * inherit rules from their parents.
+     * 
+     * @param \Affinity\SimpleAuth\Model\Affinity\SimpleAuth\Model\RoleInterface $role
+     */
+    public function setParentRole(RoleInterface $role);
+    
+    /**
+     * Returns the ordering number of the role.
+     * A lower number represents a greater precedence of
+     * permissions.
+     * 
+     * @return int The order the role should be processed in.
+     */
+    public function getOrder();
+    
+    /**
+     * Sets the ordering number of the role.
+     * A lower number represents a greater precedence of
+     * permissions.
+     * 
+     * @param int $order
+     */
+    public function setOrder($order);
     
     /**
      * Returns an array of permissions.

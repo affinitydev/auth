@@ -21,7 +21,8 @@ interface DecisionInterface extends ContextContainerInterface
 {    
     /**
      * Determines whether or not to use this decision for
-     * the given resource.
+     * the given resource.  The parameters array may contain
+     * a named list of parameters for the decision.
      * 
      * @param mixed $resource The resource to test for a decision.
      */
@@ -34,5 +35,5 @@ interface DecisionInterface extends ContextContainerInterface
      * @param mixed $resource Resource to validate the current user context by. 
      * @param array $params Parameters to assist validation of the user context.
      */
-    public function makeDecision($resource, array $params = null);
+    public function runDecision($resource, array $params = null);
 }

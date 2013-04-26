@@ -31,23 +31,10 @@ interface UserInterface
     public function addRole(RoleInterface $role);
     
     /**
-     * Adds a permission to the user.
-     * 
-     * @param \Affinity\SimpleAuth\Model\PermissionInterface $permission
-     */
-    public function addPermission(PermissionInterface $permission);
-    
-    /**
      * Returns an array of Roles.
      * 
      * @return RoleInterface[] Array of roles pertaining to the user.
      */
     public function getRoles();
     
-    /**
-     * Returns an array of Permissions.
-     * 
-     * @return PermissionInterface[] Array of permissions pertaining to the user. 
-     */
-    public function getPermissions();
 }

@@ -17,34 +17,34 @@ namespace Affinity\SimpleAuth\Model;
  * @package Affinity.SimpleAuth
  * 
  */
-interface PropertyInterface
+interface ActionInterface
 {
     /**
-     * Sets the name identifier of the property.
+     * Sets the name identifier of the action.
      * 
      * @param string $name
      */
     public function setName($name);
     
     /**
-     * Sets the value of the property.
+     * Sets the value of the action.
      * 
      * @param mixed $value
      */
     public function setValue($value);
     
     /**
-     * Returns the property identifier, used to identify the
-     * property.
+     * Returns the action identifier, used to identify the
+     * action.
      * 
-     * @return string The unique property identifier.
+     * @return string The unique action identifier.
      */
     public function getName();
     
     /**
-     * Retrieves the property value.
+     * Retrieves the action value.
      * 
-     * @return mixed The value of the property.
+     * @return mixed The value of the action.
      */
     public function getValue();
 }

@@ -41,6 +41,7 @@ trait ContextContainerTrait
     
     public function setContext(AuthContext $context)
     {
+        echo 'Setting context in class ' . __CLASS__ . '.<br/>';
         $this->authContext = $context;
     }
 }

@@ -11,7 +11,7 @@
 
 namespace Affinity\SimpleAuth;
 
-use Affinity\SimpleAuth\Model\AuthContextInterface;
+use Affinity\SimpleAuth\Model\ContextContainerInterface;
 use Affinity\SimpleAuth\Model\UserInterface;
 
 use Affinity\SimpleAuth\AuthManager;
@@ -34,15 +34,11 @@ class AuthContext
      */
     private $user;
     private $authManager;
-    private $decisionManager;
     
-    public function __construct(AuthManager $authManager, DecisionManager $decisionManager, UserInterface $user = null)
+    public function __construct(AuthManager $authManager = null, UserInterface $user = null)
     {
         $this->authManager = $authManager;
-        $this->decisionManager = $decisionManager;
-        
         $this->authManager->setContext($this);
-        $this->decisionManager->setContext($this);
         
         if($user != null)
             $this->user = $user;
@@ -86,18 +82,4 @@ class AuthContext
     {
         $this->authManager = $authManager;
     }
-    
-    /**
-     * 
-     * @return type
-     */
-    public function getDecisionManager()
-    {
-        return $this->decisionManager;
-    }
-    
-    public function setDecisionManager(DecisionManager $decisionManager)
-    {
-        $this->decisionManager = $decisionManager;
-    }    
 }

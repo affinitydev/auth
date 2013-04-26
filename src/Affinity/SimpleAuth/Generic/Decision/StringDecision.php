@@ -13,11 +13,10 @@ namespace Affinity\SimpleAuth\Generic\Decision;
 
 use Affinity\SimpleAuth\Model\UserInterface;
 use Affinity\SimpleAuth\Model\DecisionInterface;
-use Affinity\SimpleAuth\Model\PropertyInterface;
+use Affinity\SimpleAuth\Model\ActionInterface;
 use Affinity\SimpleAuth\Model\RoleInterface;
-use Affinity\SimpleAuth\Model\PermissionInterface;
 
-use Affinity\SimpleAuth\Generic\Property;
+use Affinity\SimpleAuth\Generic\Action;
 
 use Affinity\SimpleAuth\Helper\PermissionHelper;
 use Affinity\SimpleAuth\Helper\ContextContainerTrait;
@@ -55,35 +54,29 @@ class StringDecision implements DecisionInterface
      * 
      * @return integer Decision
      */
-    public function makeDecision($resource, array $params = null)
-    {
-        // The final decision to return.
-        $decision = false;
-        
+    public function runDecision($stringResource, array $params = null)
+    {        
         $user = $this->getContext()->getUser();
         $roles = $user->getRoles();
         
-        // Loop through roles.
+        // Sort roles by their order, if specified.
+        uasort($roles, function($role1, $role2) {
+            if($role1->getOrder() == $role2->getOrder())
+                return 0;
+            
+            return ($role1->getOrder() < $role2->getOrder()) ? -1 : 1;
+        });
+        
+        // Loop through roles, and check for an IsGranted permission.
         foreach($roles as $role)
         {
-            // Loop through permissions.
-            $permissions = $role->getPermissions();
-            foreach($permissions as $permission)
+            $actions = PermissionHelper::GetActionsFromRole($role, Action::IsGranted, $stringResource);
+            if(isset($actions[0]) && $actions[0]->getName() == Action::IsGranted)
             {
-                if($permission->getResource() == $resource)
-                {
-                    /* @var $property PropertyInterface */
-                    $properties = $permission->getProperties();
-                    foreach($properties as $property)
-                    {
-                        if($property->getName() == Property::IsGranted)
-                            $decision = $property->getValue();                       
-                    }
-                }
+                return $actions[0]->getValue();
             }
         }
         
-        
-        return $decision;
+        return false;
     }
 }

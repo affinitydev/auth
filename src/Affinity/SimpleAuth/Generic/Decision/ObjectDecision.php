@@ -48,7 +48,7 @@ class ObjectDecision implements DecisionInterface
         return false;
     }
     
-    public function makeDecision($resource, array $params = null)
+    public function runDecision($resource, array $params = null)
     {
         $resourceName = null;
         $resourceKey = null;

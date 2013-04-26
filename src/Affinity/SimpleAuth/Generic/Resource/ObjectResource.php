@@ -56,6 +56,10 @@ class ObjectResource implements ObjectResourceInterface
         return null;
     }
     
+    /**
+     * 
+     * @return string The name of the resource
+     */
     public function getResourceName()
     {
         return $this->name;

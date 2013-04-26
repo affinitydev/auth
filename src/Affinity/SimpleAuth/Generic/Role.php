@@ -23,13 +23,9 @@ use Affinity\SimpleAuth\Model\PermissionInterface;
  */
 class Role implements RoleInterface
 {
-    private $permissions;
+    private $permissions = array();
+    private $order = 0;
     private $parentRole = null;
-    
-    public function __construct()
-    {
-        $this->permissions = array();
-    }
     
     /**
      * @inheritdoc
@@ -38,11 +34,35 @@ class Role implements RoleInterface
     {
         $this->permissions[] = $permission;
     }
+    
+    /**
+     * @inheritdoc
+     */
+    public function getOrder()
+    {
+        return $this->order;
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function setOrder($order)
+    {
+        $this->order = $order;
+    }
 
     /**
      * @inheritdoc
      */
-    public function getParent()
+    public function setParentRole(RoleInterface $role)
+    {
+        $this->parentRole = $role;
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function getParentRole()
     {
         return $this->parentRole;
     }
@@ -53,5 +73,5 @@ class Role implements RoleInterface
     public function getPermissions() 
     {
         return $this->permissions;
-    }    
+    }
 }

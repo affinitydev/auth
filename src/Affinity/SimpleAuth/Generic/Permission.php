@@ -24,43 +24,55 @@ use Affinity\SimpleAuth\Model\PropertyInterface;
  */
 class Permission implements PermissionInterface
 {
-    private $resource;
-    private $properties;
-    
-    public function __construct()
-    {
-        $this->properties = array();
-    }
+    private $resourceName;
+    private $resourceKey;
+    private $actions = array();
     
     /**
      * @inheritdoc
      */
-    public function addProperty(PropertyInterface $property)
+    public function setActions(array $actions)
     {
-        $this->properties[] = $property;
+        $this->actions = $actions;
     }
 
     /**
      * @inheritdoc
      */
-    public function getProperties() 
+    public function getActions() 
     {
-        return $this->properties;
+        return $this->actions;
     }
 
     /**
      * @inheritdoc
      */
-    public function getResource()
+    public function getResourceName()
     {
-        return $this->resource;
+        return $this->resourceName;
     }
     
     /**
      * @inheritdoc
      */
-    public function setResource($resource)
+    public function setResourceName($resourceName)
     {
-        $this->resource = $resource;
+        $this->resourceName = $resourceName;
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function getResourceKey()
+    {
+        return $this->resourceKey;
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function setResourceKey($resourceKey)
+    {
+        $this->resourceKey = $resourceKey;
     }
 }

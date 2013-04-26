@@ -24,26 +24,21 @@ use Affinity\SimpleAuth\Model\RoleInterface;
  */
 class User implements UserInterface
 {
-    private $permissions;
-    private $roles;
-    
-    private $fields;
-    
-    public function __construct()
-    {
-        $this->permissions = array();
-        $this->roles = array();
-        $this->fields = array();
-    }
+    /**
+     * Array of roles which the user belongs to.
+     * 
+     * @var array $roles
+     */
+    private $roles = array();
     
     /**
-     * @inheritdoc
+     * Custom fields to emulate a full user.  Use the
+     * magic getters and setters to access these fields.
+     * 
+     * @var array $fields
      */
-    public function addPermission(PermissionInterface $permission)
-    {
-        $this->permissions[] = $permission;
-    }
-
+    private $fields = array();
+    
     /**
      * @inheritdoc
      */
@@ -51,15 +46,7 @@ class User implements UserInterface
     {
         $this->roles[] = $role;
     }
-
-    /**
-     * @inheritdoc
-     */
-    public function getPermissions()
-    {
-        return $this->permissions;
-    }
-
+    
     /**
      * @inheritdoc
      */

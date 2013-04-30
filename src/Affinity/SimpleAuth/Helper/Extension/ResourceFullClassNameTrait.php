@@ -9,7 +9,7 @@
  * @license http://opensource.org/licenses/bsd-license.php BSD
  */
 
-namespace Affinity\SimpleAuth\Helper;
+namespace Affinity\SimpleAuth\Helper\Extension;
 
 /**
  * 
@@ -19,7 +19,16 @@ namespace Affinity\SimpleAuth\Helper;
  * @package Affinity.SimpleAuth
  * 
  */
-
-trait ResourceKeyTrait
+trait ResourceFullClassNameTrait
 {
+    /**
+     * Returns the fully qualified classname as the
+     * resource identifier for authentication.
+     * 
+     * @return string The resource identifier.
+     */
+    public static function getResourceName()
+    {
+        return get_called_class();
+    }
 }

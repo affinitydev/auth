@@ -8,7 +8,10 @@
  * @package Affinity.SimpleAuth
  * @license http://opensource.org/licenses/bsd-license.php BSD
  */
-namespace Affinity\SimpleAuth\Helper;
+
+namespace Affinity\SimpleAuth\Helper\Extension;
+
+use Affinity\SimpleAuth\Helper\ClassHelper;
 
 /**
  * 
@@ -27,8 +30,8 @@ trait ResourceClassNameTrait
      * 
      * @return string The resource identifier.
      */
-    public static function getName()
+    public static function getResourceName()
     {
-        return ClassHelper::GetClassnameFromFullyQualified(__CLASS__);
+        return ClassHelper::GetClassnameFromFullyQualified(get_called_class());
     }
 }

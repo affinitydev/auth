@@ -20,7 +20,7 @@ use Affinity\SimpleAuth\Model\ContextContainerInterface;
 use Affinity\SimpleAuth\Exception\UserNotProvidedException;
 use Affinity\SimpleAuth\Exception\InvalidPropertyException;
 
-use Affinity\SimpleAuth\Helper\ContextContainerTrait;
+use Affinity\SimpleAuth\Helper\Extension\ContextContainerTrait;
 
 use Affinity\SimpleAuth\DecisionManager;
 use Affinity\SimpleAuth\UserContext;
@@ -82,7 +82,7 @@ class AuthManager implements ContextContainerInterface
     {
         // Attempt to resolve a decision strategy.
         if((!is_array($parameters)) && $parameters != null)
-            $parameters = array("Property" => $parameters);
+            $parameters = array("Action" => $parameters);
         
         /* @var $strategy DecisionInterface */
         $strategy = $this->getDecision($object, $parameters);
@@ -121,7 +121,8 @@ class AuthManager implements ContextContainerInterface
         
         // Since the decision is a ContextContainer, the context can be directly
         // injected.
-        $decision->setContext($this->getContext());
+        if($this->getContext() != null)
+            $decision->setContext($this->getContext());
     }
     
     /**

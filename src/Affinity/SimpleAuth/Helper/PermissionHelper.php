@@ -40,12 +40,11 @@ final class PermissionHelper
      * for a resource with the given key, and resources with no keys.
      * @param boolean $returnFirst Return on the first action found in the role tree.
      * @param integer $maxIterations The maximum number of iterations before an exception is thrown.
-     * @param boolean $overwriteActions If an action is found, and a parent action already exists, this value determines if it will be overwritten or not.
      * 
      * @return array Array of actions found.
      */
-    public static function GetActionsFromRole(RoleInterface $role, $actionName, $resourceName, $resourceKey = null, $returnFirst = true, $maxIterations = 20, $overwriteActions = false)
-    {
+    public static function GetActionsFromRole(RoleInterface $role, $actionName, $resourceName, $resourceKey = null, $returnFirst = true, $maxIterations = 20)
+    {        
         $keyedArray = array();
         $unkeyedArray = array();
         $returnArray = array();
@@ -58,9 +57,9 @@ final class PermissionHelper
                                 "Check for an infinite loop in your role parent tree, or increase the number " . 
                                 "of maximum allowed iterations in your decision (currently " . $maxIterations . ").");
         }
-        
-        $permissions = $role->getPermissions();        
+           
         /* @var $permission PermissionInterface */
+        $permissions = $role->getPermissions();
         foreach($permissions as $permission)
         {
             if($permission->getResourceName() == $resourceName)
@@ -109,7 +108,7 @@ final class PermissionHelper
         // Perform a merge if there are parent actions.
         if(count($parentArray) > 0)
         {
-            $returnArray = PermissionHelper::MergeActionArrays($returnArray, $parentArray, $overwriteActions);
+            $returnArray = PermissionHelper::MergeActionArrays($returnArray, $parentArray, false);
         }
 
         return $returnArray;
@@ -184,5 +183,20 @@ final class PermissionHelper
         {
             return array_merge($primaryActions, $parentActions);
         }
+    }
+    
+    /**
+     * Sorts roles by their order number.  Roles will be
+     * sorted in ascending order. 
+     */
+    public static function SortRoles(array &$roles)
+    {
+        // Sort roles by their order, if specified.
+        uasort($roles, function($role1, $role2) {
+            if($role1->getOrder() == $role2->getOrder())
+                return 0;
+            
+            return ($role1->getOrder() < $role2->getOrder()) ? -1 : 1;
+        });
     }
 }

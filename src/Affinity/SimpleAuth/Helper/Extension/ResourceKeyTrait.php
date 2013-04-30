@@ -9,35 +9,19 @@
  * @license http://opensource.org/licenses/bsd-license.php BSD
  */
 
-namespace Affinity\SimpleAuth\Helper;
-
-use Affinity\SimpleAuth\Generic\Resource\ObjectResource;
+namespace Affinity\SimpleAuth\Helper\Extension;
 
 /**
  * 
- * Class Description.
+ * Allows for a class to utilize the ResourceInterface
+ * automatically.
  * 
  * @package Affinity.SimpleAuth
  * 
  */
-trait ObjectResourceTrait
+
+trait ResourceKeyTrait
 {
-    public static function getResource()
-    {
-        return new ObjectResource(self::getName());
-    }
-    
-    /**
-     * Returns the fully qualified classname as the
-     * resource identifier for authentication.
-     * 
-     * @return string The resource identifier.
-     */
-    public static function getName()
-    {
-        return __CLASS__;
-    }
-    
     /**
      * Returns the key for the current resource.  The key field can be
      * defined by creating a const on the parent class of this trait
@@ -45,8 +29,8 @@ trait ObjectResourceTrait
      * for Id, id, Key, and key fields on the class.
      * 
      * @return string The resource key.
-     */
-    function getKey()
+     */    
+    function getResourceKey()
     {
         if(defined(get_class($this) . '::RESOURCE_KEY_FIELD'))
         {

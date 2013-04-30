@@ -18,10 +18,11 @@ use Affinity\SimpleAuth\Model\PermissionInterface;
 use Affinity\SimpleAuth\Model\DecisionInterface;
 
 use Affinity\SimpleAuth\Generic\Resource\ObjectResourceInterface;
-use Affinity\SimpleAuth\Generic\Resource\ObjectResource;
-use Affinity\SimpleAuth\Generic\Property;
+use Affinity\SimpleAuth\Generic\Resource\ObjectResourceProxy;
 
-use Affinity\SimpleAuth\Helper\ContextContainerTrait;
+use Affinity\SimpleAuth\Helper\PermissionHelper;
+
+use Affinity\SimpleAuth\Helper\Extension\ContextContainerTrait;
 
 /**
  * 
@@ -48,61 +49,45 @@ class ObjectDecision implements DecisionInterface
         return false;
     }
     
+    /**
+     * Attempts to find a given action, defined in $params["Action"], associated
+     * with the given ObjectResource.  Also accepts an ObjectResourceProxy, which
+     * is a mocked ObjectResource object (useful for passing in uninstantiated
+     * domain objects).
+     * 
+     * @param type $resource
+     * @param array $params
+     * 
+     * @return boolean
+     */
     public function runDecision($resource, array $params = null)
     {
         $resourceName = null;
         $resourceKey = null;
         
-        if($resource instanceof ObjectResourceInterface)
-        {
-            $resourceName = $this->_getResourceName($resource);
-            $resourceKey = $resource->getKey();
-        }
+        if($resource instanceof ObjectResourceProxy)
+            $resourceName = $resource->getResourceProxyName();
+        else if($resource instanceof ObjectResourceInterface)
+            $resourceName = $resource::getResourceName();
+        else
+            return false;
         
-        $user = $this->getContext()->getUser();
-        $roles = $user->getRoles();
+        $resourceKey = $resource->getResourceKey();
+        
+        $roles = $this->getContext()->getUser()->getRoles();
+        
+        if(!(isset($params['NoSort']) && $params['NoSort'] == true))
+            PermissionHelper::SortRoles($roles);
         
         // Loop through roles.
         foreach($roles as $role)
         {
-            // Loop through permissions.
-            $permissions = $role->getPermissions();
-            foreach($permissions as $permission)
+            $actions = PermissionHelper::GetActionsFromRole($role, $params["Action"], $resourceName, $resourceKey);
+
+            if(isset($actions[0]))
             {
-                $permissionResource = $permission->getResource();
-                if($permissionResource instanceof ObjectResourceInterface)
-                {
-                    $resName = $this->_getResourceName($permissionResource);
-                    $resKey = $permissionResource->getKey();
-                    if($resName == $resourceName && ($resKey == $resourceKey || $resKey == null))
-                    {
-                        /* @var $property PropertyInterface */
-                        $properties = $permission->getProperties();
-                        foreach($properties as $property)
-                        {
-                            if($property->getName() == $params["Property"])
-                                return $property->getValue();
-                        }
-                    }
-                }
+                return $actions[0]->getValue();
             }
         }        
-    }
-    
-    private function _getResourceName($resource)
-    {
-        $resourceName = null;
-        
-        if($resource instanceof ObjectResource)
-        {
-            $resourceName = $resource->getResourceName();
-        }
-        else
-        {
-            $classname = get_class($resource);
-            $resourceName = $classname::getName();
-        }
-        
-        return $resourceName;
     }
 }

@@ -8,36 +8,36 @@
  * @package Affinity.Auth
  * @license http://opensource.org/licenses/bsd-license.php BSD
  */
+
 namespace Affinity\SimpleAuth\Generic\Resource;
+
 /**
- * 
- * Interface describing a resource for authentication.  A resource must
- * have:
- *      - A resource name.  This represents the type of resource, for
- *        example: "BlogPost" as an object resource, or "canEditOwnComments"
- *        as a permission resource.
- * 
- *      - A resource key.  If the resource is a domain object, then the
- *        key represents a specific instance of that domain object.  If the
- *        key is null, then the resource spans the breadth of all instances
- *        of the domain object.
+ * Interface describing a resource for authentication.
  * 
  * @package Affinity.Auth
- * 
  */
 interface ObjectResourceInterface
 {
+    /**
+     * Returns a generic ObjectResource instance of the current
+     * object.  This is intended to be used to authenticate on
+     * an uninitialized object, without calling new on it.
+     * 
+     * @return Affinity\SimpleAuth\Generic\Resource\ObjectResource
+     */
+    public static function getResource();
+    
     /**
      * Returns the unique name identifier for the resource.
      * 
      * @return mixed
      */
-    public static function getName();
+    public static function getResourceName();
     
     /**
      * Returns the key for the resource.  Can be null.
      * 
      * @return mixed
      */
-    public function getKey();    
+    public function getResourceKey();
 }

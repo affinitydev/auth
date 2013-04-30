@@ -9,7 +9,7 @@
  * @license http://opensource.org/licenses/bsd-license.php BSD
  */
 
-namespace Affinity\SimpleAuth\Helper;
+namespace Affinity\SimpleAuth\Helper\Extension;
 
 use Affinity\SimpleAuth\AuthContext;
 
@@ -41,7 +41,6 @@ trait ContextContainerTrait
     
     public function setContext(AuthContext $context)
     {
-        echo 'Setting context in class ' . __CLASS__ . '.<br/>';
         $this->authContext = $context;
     }
 }

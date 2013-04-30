@@ -4,3 +4,5 @@ if (!@include __DIR__ . '/../../../autoload.php') {
         wget http://getcomposer.org/composer.phar
         php composer.phar install');
 }
+
+require(__DIR__ . '/Affinity/SimpleAuth/BaseTestCase.php');

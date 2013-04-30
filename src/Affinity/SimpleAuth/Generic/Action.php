@@ -49,6 +49,18 @@ class Action implements ActionInterface
     const Undelete = "SimpleAuth_Undelete";
     
     /**
+     * Default constructor, with name and value setters.
+     * 
+     * @param type $name
+     * @param type $value
+     */
+    public function __construct($name = null, $value = null)
+    {
+        $this->setName($name);
+        $this->setValue($value);
+    }
+    
+    /**
      * @inheritdoc
      */
     public function getName()

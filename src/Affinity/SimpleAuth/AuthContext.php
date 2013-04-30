@@ -37,8 +37,11 @@ class AuthContext
     
     public function __construct(AuthManager $authManager = null, UserInterface $user = null)
     {
-        $this->authManager = $authManager;
-        $this->authManager->setContext($this);
+        if($authManager != null)
+        {
+            $this->authManager = $authManager;
+            $this->authManager->setContext($this);
+        }
         
         if($user != null)
             $this->user = $user;

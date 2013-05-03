@@ -1,0 +1,24 @@
+{
+    "name": "affinitydev/auth",
+    "type": "library",
+    "description": "Decoupled, interface-based Authentication component for PHP 5.4.",
+    "keywords": ["php","rbac","authorization","user","security"],
+    "homepage": "http://affinitydev.github.io",
+    "license": "BSD-2",
+    "authors": [
+        {
+            "name": "Brendan Bates",
+            "email": "brendanbates89@gmail.com",
+            "homepage": "http://affinitydev.github.io",
+            "role": "Lead Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.8"
+    },
+    "autoload": {
+        "psr-0": {
+            "Affinity": "src"
+        }
+    }
+}

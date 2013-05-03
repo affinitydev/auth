@@ -35,7 +35,7 @@ class Permission implements PermissionInterface
         
         if(is_array($actions))
             $this->actions = $actions;
-        else if(is_string($actions))
+        else if($actions instanceof Action)
             $this->actions = array($actions);
     }
     

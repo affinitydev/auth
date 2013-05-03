@@ -238,9 +238,7 @@ class BaseTestCase extends \PHPUnit_Framework_TestCase
         else
         {
             if($action1->getName() == $action2->getName() && $action1->getValue() == $action2->getValue())
-            {
                 return true;
-            }
 
             return false;
         }

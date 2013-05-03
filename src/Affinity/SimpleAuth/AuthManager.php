@@ -11,23 +11,15 @@
 
 namespace Affinity\SimpleAuth;
 
-use Affinity\SimpleAuth\Model\UserInterface;
-use Affinity\SimpleAuth\Model\PropertyInterface;
 use Affinity\SimpleAuth\Model\DecisionInterface;
-use Affinity\SimpleAuth\Model\PermissionInterface;
 use Affinity\SimpleAuth\Model\ContextContainerInterface;
-
-use Affinity\SimpleAuth\Exception\UserNotProvidedException;
-use Affinity\SimpleAuth\Exception\InvalidPropertyException;
 
 use Affinity\SimpleAuth\Helper\Extension\ContextContainerTrait;
 
-use Affinity\SimpleAuth\DecisionManager;
-use Affinity\SimpleAuth\UserContext;
-
 /**
  * 
- * The context for a single users authentication.
+ * The AuthManager is responsible for maintaining and running
+ * authorization decisions.
  * 
  * @package Affinity.SimpleAuth
  * 
@@ -36,21 +28,17 @@ class AuthManager implements ContextContainerInterface
 {
     use ContextContainerTrait { ContextContainerTrait::setContext as _setContext; }
     
-    /**
-     * Array of DecisionInterface strategies, to use for validation
-     * of the user context against resources.
-     * 
-     * @var array $strategies 
-     */
     private $decisions = array();
+    private $decisionCount = 0;
+    private $recursionCount = 0;
+    
+    private $onDenied = null;
+    private $onAllowed = null;
     
     /**
-     * The counter representing the number of strategies currently
-     * injected.
-     * 
-     * @var int $strategyCount
+     * Action parameter, for determining the action to validate against.
      */
-    private $decisionCount = 0;
+    const Param_Action = "Action";
     
     /**
      * Constructor.
@@ -80,9 +68,10 @@ class AuthManager implements ContextContainerInterface
      */
     public function allowed($object, $parameters = null)
     {
-        // Attempt to resolve a decision strategy.
-        if((!is_array($parameters)) && $parameters != null)
-            $parameters = array("Action" => $parameters);
+        // If the parameter is a string, then convert it to an action
+        // parameter.
+        if(is_string($parameters))
+                $parameters = array(self::Param_Action => $parameters);
         
         /* @var $strategy DecisionInterface */
         $strategy = $this->getDecision($object, $parameters);
@@ -90,8 +79,22 @@ class AuthManager implements ContextContainerInterface
         if(!($strategy instanceof DecisionInterface))
             throw new InvalidDecisionException("An invalid decision strategy was returned from the decision manager.  Perhaps the object returned was not a DecisionInterface object.");
         
+        // Increase the recusion counter.
+        $this->recursionCount++;
+        
         // Return a strict true/false value.
-        return ($strategy->runDecision($object, $parameters) ? true : false);
+        $strategy->setDecisionRan(true);
+        $returnDecision = ($strategy->runDecision($object, $parameters) ? true : false);
+        
+        $this->recursionCount--;
+        
+        // If this is the top-level allowed() call, then reset all of the
+        // decisions to their initial state.
+        if($this->recursionCount == 0)
+            foreach($this->decisions as $decision)
+                $decision->setDecisionRan(false);
+        
+        return $returnDecision;
     }
     
     /**
@@ -155,6 +158,7 @@ class AuthManager implements ContextContainerInterface
         // Call function from trait.
         $this->_setContext($authContext);
         
+        // Set all of the contexts of the decisions in the array.
         /* @var $decision DecisionInterface */
         foreach($this->decisions as $decision)
         {

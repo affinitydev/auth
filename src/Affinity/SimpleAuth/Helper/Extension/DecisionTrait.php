@@ -11,23 +11,30 @@
 
 namespace Affinity\SimpleAuth\Helper\Extension;
 
-use Affinity\SimpleAuth\Generic\Resource\ObjectResourceProxy;
-
 /**
  * 
- * Class Description.
+ * A couple of commonly used
  * 
  * @package Affinity.SimpleAuth
  * 
  */
-trait ObjectResourceTrait
+trait DecisionTrait
 {
-    public static function getResource($key = null)
+    private $hasDecisionRan = false;
+    
+    /**
+     * @inheritdoc
+     */
+    public function hasDecisionRan()
     {
-        return new ObjectResourceProxy(
-            get_called_class(),
-            self::getResourceName(), 
-            $key
-        );
+        return $this->hasDecisionRan;
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function setDecisionRan($value)
+    {
+        $this->hasDecisionRan = $value;
     }
 }

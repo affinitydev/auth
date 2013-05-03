@@ -20,20 +20,6 @@ namespace Affinity\SimpleAuth\Model;
 interface ActionInterface
 {
     /**
-     * Sets the name identifier of the action.
-     * 
-     * @param string $name
-     */
-    public function setName($name);
-    
-    /**
-     * Sets the value of the action.
-     * 
-     * @param mixed $value
-     */
-    public function setValue($value);
-    
-    /**
      * Returns the action identifier, used to identify the
      * action.
      * 

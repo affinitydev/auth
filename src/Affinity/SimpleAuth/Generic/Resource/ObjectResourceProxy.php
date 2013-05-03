@@ -13,13 +13,15 @@ namespace Affinity\SimpleAuth\Generic\Resource;
 
 /**
  * 
- * This is a generic 
+ * This is a generic Proxy object for an ObjectResource.
+ * It can be used in place of an ObjectResource
  * 
  * @package Affinity.SimpleAuth
  * 
  */
-class ObjectResourceProxy implements ObjectResourceInterface
+class ObjectResourceProxy 
 {
+    private $class;
     private $name;
     private $key;
     
@@ -30,43 +32,11 @@ class ObjectResourceProxy implements ObjectResourceInterface
      * @param string $name
      * @param string $key
      */
-    public function __construct($name, $key = null)
+    public function __construct($class, $name, $key = null)
     {
         $this->name = $name;
         $this->key = $key;
-    }
-    
-    /**
-     * Since this is a generic object resource proxy class, the static
-     * getName will return null.
-     * 
-     * @return null
-     */
-    public static function getResource()
-    {
-        return null;
-    }
-    
-    /**
-     * Since this is a generic object resource proxy class, the getKey
-     * function will always 
-     * 
-     * @return null
-     */
-    public static function getResourceName()
-    {
-        return null;
-    }
-    
-    /**
-     * Returns the key.  Key is an immutable property, defined when
-     * the proxy object is created.
-     * 
-     * @return null
-     */
-    public function getResourceKey()
-    {
-        return $this->key;
+        $this->class = $class;
     }
     
     /**
@@ -78,5 +48,43 @@ class ObjectResourceProxy implements ObjectResourceInterface
     public function getResourceProxyName()
     {
         return $this->name;
+    }
+    
+    /**
+     * Returns the key.  Key is an immutable property, defined when
+     * the proxy object is created.
+     * 
+     * @return null
+     */
+    public function getResourceProxyKey()
+    {
+        return $this->key;
+    }
+    
+    /**
+     * This function will return the immutable name of the
+     * resource, defined when the proxy object is created.
+     * 
+     * @return string The name of the resource
+     */
+    public function getResourceProxyClass()
+    {
+        return $this->class;
+    }
+    
+    /**
+     * Dummy __get
+     */
+    public function __get($name)
+    {
+        return null;
+    }
+    
+    /**
+     * Dummy __call
+     */
+    public function __call($name, $arguments)
+    {
+        return null;
     }
 }

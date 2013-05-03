@@ -19,13 +19,13 @@ namespace Affinity\SimpleAuth\Generic\Resource;
 interface ObjectResourceInterface
 {
     /**
-     * Returns a generic ObjectResource instance of the current
+     * Returns a generic ObjectResourceProxy instance of the current
      * object.  This is intended to be used to authenticate on
      * an uninitialized object, without calling new on it.
      * 
      * @return Affinity\SimpleAuth\Generic\Resource\ObjectResource
      */
-    public static function getResource();
+    public static function getResource($key = null);
     
     /**
      * Returns the unique name identifier for the resource.

@@ -30,14 +30,6 @@ class Role implements RoleInterface
     /**
      * @inheritdoc
      */
-    public function addPermission(PermissionInterface $permission)
-    {
-        $this->permissions[] = $permission;
-    }
-    
-    /**
-     * @inheritdoc
-     */
     public function getOrder()
     {
         return $this->order;
@@ -54,17 +46,17 @@ class Role implements RoleInterface
     /**
      * @inheritdoc
      */
-    public function setParentRole(RoleInterface $role)
+    public function getParentRole()
     {
-        $this->parentRole = $role;
+        return $this->parentRole;
     }
     
     /**
      * @inheritdoc
      */
-    public function getParentRole()
+    public function setParentRole(RoleInterface $role)
     {
-        return $this->parentRole;
+        $this->parentRole = $role;
     }
 
     /**
@@ -73,5 +65,22 @@ class Role implements RoleInterface
     public function getPermissions() 
     {
         return $this->permissions;
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function addPermission(PermissionInterface $permission)
+    {
+        $this->permissions[] = $permission;
+    }
+    
+    /**
+     * 
+     * @param array $permissions
+     */
+    public function setPermissions(array $permissions)
+    {
+        $this->permissions = $permissions;
     }
 }

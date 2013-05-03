@@ -46,6 +46,14 @@ class User implements UserInterface
     {
         $this->roles[] = $role;
     }
+     
+   /**
+     * 
+     */
+    public function setRoles(array $roles)
+    {
+        $this->roles = $roles;
+    }
     
     /**
      * @inheritdoc

@@ -17,6 +17,7 @@ use Affinity\SimpleAuth\Generic\Action;
 
 use Affinity\SimpleAuth\Helper\PermissionHelper;
 use Affinity\SimpleAuth\Helper\Extension\ContextContainerTrait;
+use Affinity\SimpleAuth\Helper\Extension\DecisionTrait;
 
 /**
  * 
@@ -31,7 +32,7 @@ use Affinity\SimpleAuth\Helper\Extension\ContextContainerTrait;
  */
 class StringDecision implements DecisionInterface
 {    
-    use ContextContainerTrait;
+    use ContextContainerTrait, DecisionTrait;
     
     /**
      * Determines whether or not to use this decision for
@@ -62,7 +63,7 @@ class StringDecision implements DecisionInterface
      * @return integer Decision
      */
     public function runDecision($stringResource, array $params = null)
-    {        
+    {
         $roles = $this->getContext()->getUser()->getRoles();
         
         if(!(isset($params['NoSort']) && $params['NoSort'] == true))

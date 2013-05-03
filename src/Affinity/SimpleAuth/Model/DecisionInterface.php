@@ -20,6 +20,23 @@ namespace Affinity\SimpleAuth\Model;
 interface DecisionInterface extends ContextContainerInterface
 {    
     /**
+     * Returns whether or not the decision has ran.  Useful if
+     * you need to run multiple decisions on the same object.
+     * 
+     * @return boolean Represents if the decision has been run
+     * in this authorization.
+     */
+    public function hasDecisionRan();
+    
+    /**
+     * Sets the flag determining if the decision has ran in
+     * the current authorization.
+     * 
+     * @param boolean $value
+     */
+    public function setDecisionRan($value);
+    
+    /**
      * Determines whether or not to use this decision for
      * the given resource.  The parameters array may contain
      * a named list of parameters for the decision.

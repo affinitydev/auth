@@ -22,19 +22,11 @@ use Affinity\SimpleAuth\Model\PermissionInterface;
  * 
  */
 interface UserInterface
-{
-    /**
-     * Applies a role to the user.
-     * 
-     * @param RoleInterface $role The role to add.
-     */
-    public function addRole(RoleInterface $role);
-    
+{    
     /**
      * Returns an array of Roles.
      * 
      * @return RoleInterface[] Array of roles pertaining to the user.
      */
-    public function getRoles();
-    
+    public function getRoles();    
 }

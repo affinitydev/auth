@@ -12,7 +12,7 @@
 namespace Affinity\SimpleAuth\Generic;
 
 use Affinity\SimpleAuth\Model\PermissionInterface;
-use Affinity\SimpleAuth\Model\PropertyInterface;
+use Affinity\SimpleAuth\Model\ActionInterface;
 
 /**
  * 
@@ -28,13 +28,17 @@ class Permission implements PermissionInterface
     private $resourceKey;
     private $actions = array();
     
-    /**
-     * @inheritdoc
-     */
-    public function setActions(array $actions)
+    public function __construct($actions = null, $resourceName = null, $resourceKey = null)
     {
-        $this->actions = $actions;
+        $this->resourceName = $resourceName;
+        $this->resourceKey = $resourceKey;
+        
+        if(is_array($actions))
+            $this->actions = $actions;
+        else if(is_string($actions))
+            $this->actions = array($actions);
     }
+    
 
     /**
      * @inheritdoc
@@ -42,6 +46,22 @@ class Permission implements PermissionInterface
     public function getActions() 
     {
         return $this->actions;
+    }
+    
+    /**
+     * @inheritdoc
+     */
+    public function setActions(array $actions)
+    {
+        $this->actions = $actions;
+    }
+    
+    /**
+     * 
+     */
+    public function addAction(ActionInterface $action)
+    {
+        $this->actions[] = $action;
     }
 
     /**

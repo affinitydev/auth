@@ -11,10 +11,6 @@
 
 namespace Affinity\SimpleAuth\Generic\Decision;
 
-use Affinity\SimpleAuth\Model\UserInterface;
-use Affinity\SimpleAuth\Model\RoleInterface;
-use Affinity\SimpleAuth\Model\PropertyInterface;
-use Affinity\SimpleAuth\Model\PermissionInterface;
 use Affinity\SimpleAuth\Model\DecisionInterface;
 
 use Affinity\SimpleAuth\Generic\Resource\ObjectResourceInterface;
@@ -23,7 +19,7 @@ use Affinity\SimpleAuth\Generic\Resource\ObjectResourceProxy;
 use Affinity\SimpleAuth\Helper\PermissionHelper;
 
 use Affinity\SimpleAuth\Helper\Extension\ContextContainerTrait;
-use Affinity\SimpleAuth\Helper\Extension\DecisionHasRanTrait;
+use Affinity\SimpleAuth\Helper\Extension\DecisionTrait;
 
 /**
  * 
@@ -34,7 +30,7 @@ use Affinity\SimpleAuth\Helper\Extension\DecisionHasRanTrait;
  */
 class ObjectDecision implements DecisionInterface
 {    
-    use ContextContainerTrait, DecisionHasRanTrait;
+    use ContextContainerTrait, DecisionTrait;
     
     /**
      * Determines whether or not to use this decision for

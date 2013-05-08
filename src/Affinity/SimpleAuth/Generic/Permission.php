@@ -12,6 +12,7 @@
 namespace Affinity\SimpleAuth\Generic;
 
 use Affinity\SimpleAuth\Model\PermissionInterface;
+use Affinity\SimpleAuth\Generic\Resource\ObjectResourceInterface;
 use Affinity\SimpleAuth\Model\ActionInterface;
 
 /**
@@ -30,8 +31,15 @@ class Permission implements PermissionInterface
     
     public function __construct($actions = null, $resourceName = null, $resourceKey = null)
     {
-        $this->resourceName = $resourceName;
-        $this->resourceKey = $resourceKey;
+        if($resourceName instanceof ObjectResourceInterface)
+        {
+            $this->resourceName = $resourceName->getResourceName();
+            $this->resourceKey = $resourceKey->getResourceKey();
+        } else
+        {
+            $this->resourceName = $resourceName;
+            $this->resourceKey = $resourceKey;
+        }
         
         if(is_array($actions))
             $this->actions = $actions;

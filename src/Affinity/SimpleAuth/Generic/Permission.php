@@ -34,7 +34,7 @@ class Permission implements PermissionInterface
         if($resourceName instanceof ObjectResourceInterface)
         {
             $this->resourceName = $resourceName->getResourceName();
-            $this->resourceKey = $resourceKey->getResourceKey();
+            $this->resourceKey = $resourceName->getResourceKey();
         } else
         {
             $this->resourceName = $resourceName;
